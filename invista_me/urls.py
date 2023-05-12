@@ -1,0 +1,46 @@
+"""
+URL configuration for invista_me project.
+
+The `urlpatterns` list routes URLs to views. For more information please see:
+    https://docs.djangoproject.com/en/4.2/topics/http/urls/
+Examples:
+Function views
+    1. Add an import:  from my_app import views
+    2. Add a URL to urlpatterns:  path('', views.home, name='home')
+Class-based views
+    1. Add an import:  from other_app.views import Home
+    2. Add a URL to urlpatterns:  path('', Home.as_view(), name='home')
+Including another URLconf
+    1. Import the include() function: from django.urls import include, path
+    2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
+"""
+from django.contrib import admin
+from django.urls import path
+
+from invista_me_app import views
+
+from usuarios import views as usuarios_views
+
+from django.contrib.auth import views as auth_views
+
+urlpatterns = [
+
+    path('admin/', admin.site.urls),
+
+    path('conta/', usuarios_views.novo_usuario, name='novo_usuario'),
+
+    path('login/', auth_views.LoginView.as_view(template_name='usuarios/login.html'), name='pagina_login'),
+
+    path('logout/', auth_views.LogoutView.as_view(template_name='usuarios/logout.html'), name='pagina_logout'),
+
+    path('', views.pagina_inicial, name='pagina_inicial'),
+
+    path('novo_investimento', views.novo_investimento, name='novo_investimento'),
+
+    path('<int:id_investimento>', views.exibir_detalhes, name='exibir_detalhes'),
+
+    path('novo_investimento/<int:id_investimento>', views.editar_investimento, name='editar_investimento'),
+
+    path('excluir_investimento/<int:id_investimento>', views.excluir_investimento, name='excluir_investimento')
+
+]
